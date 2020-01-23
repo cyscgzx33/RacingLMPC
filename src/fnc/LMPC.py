@@ -11,7 +11,7 @@ from pathos.multiprocessing import ProcessingPool as Pool
 from Utilities import Curvature
 from numpy import hstack, inf, ones
 from scipy.sparse import vstack
-from osqp import OSQP
+from osqp import OSQP, constant
 
 from abc import ABCMeta, abstractmethod
 # import sys
@@ -368,8 +368,6 @@ class ControllerLMPC(AbstractControllerLMPC):
 
         return Atv, Btv, Ctv, indexUsed_list
 
-
-
 # ======================================================================================================================
 # ======================================================================================================================
 # =============================== Utility functions for LMPC reformulation to QP =======================================
@@ -421,10 +419,10 @@ def osqp_solve_qp(P, q, G=None, h=None, A=None, b=None, initvals=None):
     if initvals is not None:
         osqp.warm_start(x=initvals)
     res = osqp.solve()
-    if res.info.status_val != osqp.constant('OSQP_SOLVED'):
+    if res.info.status_val != constant("solved"):
         print("OSQP exited with status '%s'" % res.info.status)
     feasible = 0
-    if res.info.status_val == osqp.constant('OSQP_SOLVED') or res.info.status_val == osqp.constant('OSQP_SOLVED_INACCURATE') or  res.info.status_val == osqp.constant('OSQP_MAX_ITER_REACHED'):
+    if res.info.status_val == constant("solved") or res.info.status_val == constant("solved inaccurate") or res.info.status_val == constant("maximum iterations reached"):
         feasible = 1
     return res, feasible
 
@@ -822,8 +820,6 @@ def ComputeIndex(h, SS, uSS, TimeSS, it, x0, stateFeatures, scaling, MaxNumPoint
     import numpy as np
     from numpy import linalg as la
     import datetime
-
-
 
     startTimer = datetime.datetime.now()  # Start timer for LMPC iteration
 

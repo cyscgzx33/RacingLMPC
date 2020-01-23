@@ -44,6 +44,7 @@ def plotTrajectory(map, x, x_glob, u):
     plt.subplot(717)
     plt.plot(x[0:-1, 4], u[:, 1], '-o')
     plt.ylabel('acc')
+    print("===== Traj Plotting completed! ")
 
 def plotClosedLoopLMPC(LMPController, map):
     SS_glob = LMPController.SS_glob

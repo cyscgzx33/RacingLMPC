@@ -199,7 +199,6 @@ print("===== LMPC terminated")
 for i in range(0, LMPController.it):
     print("Lap time at iteration ", i, " is ", LMPController.Qfun[0, i]*dt, "s")
 
-
 print("===== Start Plotting")
 if plotFlag == 1:
     plotTrajectory(map, ClosedLoopDataPID.x, ClosedLoopDataPID.x_glob, ClosedLoopDataPID.u)
@@ -249,6 +248,3 @@ if plotOneStepPredictionErrors == 1:
         plt.ylabel(state_names[state])
 
 plt.show()
-
-
-
